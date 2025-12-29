@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0f172a; /* Slate 900 */
+  color: #f1f5f9; /* Slate 100 */
+  overflow-x: hidden;
+}
