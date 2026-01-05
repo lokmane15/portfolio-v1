@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom"; // <--- 1. ضروري تكون هادي باش يخدم Link
+import { Link } from "react-router-dom"; 
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   
   useEffect(() => {
-    // 2. تصحيح البورت لـ 5001 (حسب اخر تعديل درناه فالسيرفر)
     const API_URL = import.meta.env.VITE_API_URL; 
-    const URL = `${API_URL}/api/projects`; // لاحظ Backticks `` ماشي ""
+    const URL = `${API_URL}/api/projects`;
 
     console.log("Fetching from:", URL);
 
     axios.get(URL)
       .then(res => {
-        console.log("Data jat:", res.data); 
         setProjects(res.data);
       })
       .catch(err => {
         console.error("Error fetching projects:", err);
-        // Fallback data
         setProjects([
             {
                 id: 1, 
                 title: "Server Error", 
-                desc: "Check if backend is running on port 5001.", 
+                desc: "Check if backend is running.", 
                 tech: ["Error"], 
                 image: "", 
                 link: "#"
@@ -35,14 +32,16 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="py-20 px-6 bg-slate-900">
+    // 👇 الخلفية: رمادي فاتح فالضو (bg-gray-50) وكحلة فالظلام (dark:bg-slate-900)
+    <section id="projects" className="py-20 px-6 bg-gray-50 dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold text-center mb-16 text-white"
+          // 👇 العنوان: كحل فالضو، بيض فالظلام
+          className="text-4xl font-bold text-center mb-16 text-slate-900 dark:text-white"
         >
-          Featured <span className="text-blue-500">Projects</span>
+          Featured <span className="text-blue-600 dark:text-blue-500">Projects</span>
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -52,10 +51,11 @@ const Projects = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-slate-700 hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300 flex flex-col"
+              // 👇 الكارطة: بيضاء فالضو (bg-white)، كحلة فالظلام (dark:bg-slate-800) مع Border خفيف
+              className="bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-slate-700 hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300 flex flex-col"
             >
-              {/* Image */}
-              <div className="h-48 overflow-hidden bg-slate-700">
+              {/* Image Container */}
+              <div className="h-48 overflow-hidden bg-gray-200 dark:bg-slate-700">
                 {project.image ? (
                   <img 
                     src={project.image} 
@@ -71,12 +71,16 @@ const Projects = () => {
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
-                <p className="text-gray-400 mb-4 text-sm flex-grow">{project.desc}</p>
+                {/* 👇 عنوان المشروع: كحل فالضو، بيض فالظلام */}
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{project.title}</h3>
+                
+                {/* 👇 الوصف: رمادي غامق فالضو، رمادي فاتح فالظلام */}
+                <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm flex-grow">{project.desc}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tech.map((tech, i) => (
-                    <span key={i} className="text-xs bg-slate-700 text-blue-300 px-2 py-1 rounded-md border border-slate-600">
+                    // 👇 Badges ديال التكنولوجيا: ألوان متناسقة مع المود
+                    <span key={i} className="text-xs bg-gray-100 dark:bg-slate-700 text-blue-600 dark:text-blue-300 px-2 py-1 rounded-md border border-gray-200 dark:border-slate-600 font-medium">
                       {tech}
                     </span>
                   ))}
